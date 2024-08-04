@@ -1,0 +1,32 @@
+name: Deploy to Dev
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assume deployment role
+        uses: youyo/awscredswrap@v1
+        with:
+          role_arn: arn:aws:iam::669595167063:role/apigw-lambda-dynamodb-template-deployment-role
+          duration_seconds: 3600
+          role_session_name: 'apigw-lambda-dynamodb-template@github-actions'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: "eu-central-1"
+
+      - name: Terraform Plan
+        run: |
+          cd terraform 
+          terraform init --backend-config=./backend/dev.hcl
+          terraform plan 
+
+      - name: Terraform Apply
+        run: |
+          cd terraform 
+          terraform apply -auto-approve
