@@ -19,6 +19,13 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
+  default_tags {
+    tags = {
+      Environment = "dev"
+      Name        = "api-lambda-dynamodb-template"
+      Terraform   = "true"
+    }
+  }
 }
 
 resource "random_string" "random" {

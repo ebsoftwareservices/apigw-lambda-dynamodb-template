@@ -30,12 +30,11 @@ def lambda_handler(event, context):
       }
   else:
       logging.info("## Received request without a payload")
-      dynamodb_client.put_item(TableName=table,Item={"year": {'N':'2012'}, "bar": {'S':'bar la'}})
-      message = "Successfully inserted data!"
+      response = dynamodb_client.query(TableName=table,KeyConditions={"year": {"AttributeValueList":[{'N':'2022'}],'ComparisonOperator': 'EQ'}})
       return {
           "statusCode": 200,
           "headers": {
               "Content-Type": "application/json"
           },
-          "body": json.dumps({"message": message})
+          "body": json.dumps(response)
       }

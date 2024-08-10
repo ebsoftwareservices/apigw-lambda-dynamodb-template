@@ -1,33 +1,35 @@
-resource "aws_dynamodb_table" "table_foo" {
-  name         = var.dynamodb_table_foo
+module "dynamodb_table_foo" {
+  source = "terraform-aws-modules/dynamodb-table/aws"
+
+  name         = "foo"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "year"
   range_key    = "foo"
-
-  attribute {
-    name = "year"
-    type = "N"
-  }
-
-  attribute {
-    name = "foo"
-    type = "S"
-  }
+  attributes = [
+    {
+      name = "year"
+      type = "N"
+      }, {
+      name = "foo"
+      type = "S"
+    }
+  ]
 }
 
-resource "aws_dynamodb_table" "table_bar" {
-  name         = var.dynamodb_table_bar
+module "dynamodb_table_bar" {
+  source = "terraform-aws-modules/dynamodb-table/aws"
+
+  name         = "bar"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "year"
   range_key    = "bar"
-
-  attribute {
-    name = "year"
-    type = "N"
-  }
-
-  attribute {
-    name = "bar"
-    type = "S"
-  }
+  attributes = [
+    {
+      name = "year"
+      type = "N"
+      }, {
+      name = "bar"
+      type = "S"
+    }
+  ]
 }
