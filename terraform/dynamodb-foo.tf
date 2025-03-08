@@ -1,4 +1,4 @@
-module "dynamodb_table_organization_settings" {
+module "dynamodb_table_foo" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
   name         = "foo"

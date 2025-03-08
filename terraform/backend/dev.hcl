@@ -1,4 +1,4 @@
 bucket = "terraform-state-eu-central-1-804338050068"
-dynamodb_table = "terraform-state-locks"
+use_lockfile = true
 key = "foo/terraform.tfstate"
 region = "eu-central-1"

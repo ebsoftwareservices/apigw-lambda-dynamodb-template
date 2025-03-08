@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx standard --fix"
   },
-  "author": "foo",
+  "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {

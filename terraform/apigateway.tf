@@ -63,13 +63,13 @@ module "api_gateway" {
 
       integration = {
         type = "AWS_PROXY"
-        uri  = module.lambda_get_organization.lambda_function_invoke_arn
+        uri  = module.lambda_foo.lambda_function_invoke_arn
       }
     }
     "GET /clients/{id}" = {
       integration = {
         type = "AWS_PROXY"
-        uri  = module.lambda_get_organization.lambda_function_invoke_arn
+        uri  = module.lambda_foo.lambda_function_invoke_arn
       }
     }
   }

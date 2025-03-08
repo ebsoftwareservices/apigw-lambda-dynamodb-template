@@ -24,31 +24,31 @@ module "lambda_foo" {
   }
 
   attach_policy_json = true
-  policy_json = jsondecode(
-    {
-      "Version" : "2012-10-17",
-      "Statement" : [
-        {
-          "Effect" : "Allow",
-          "Action" : [
-            "dynamodb:*"
-          ],
-          "Resource" : [
-            "${module.dynamodb_table_foo.dynamodb_table_arn}"
-          ]
-        },
-        {
-          "Effect" : "Allow",
-          "Action" : [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents"
-          ],
-          "Resource" : "*"
-        }
-      ]
-    }
-  )
+  policy_json        = <<_EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "dynamodb:*"
+        ],
+        "Resource": [
+          "${module.dynamodb_table_foo.dynamodb_table_arn}"
+        ]
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
+  _EOF
 }
 
 resource "aws_lambda_permission" "apigw_foo" {
@@ -59,10 +59,7 @@ resource "aws_lambda_permission" "apigw_foo" {
   source_arn    = "${module.api_gateway.api_execution_arn}/*/*"
   depends_on = [
     module.api_gateway,
-    module.dynamodb_table_foo,
-    module.dynamodb_table_user_settings,
-    module.dynamodb_table_company_preferences,
-    module.dynamodb_table_user_preferences
+    module.dynamodb_table_foo
   ]
 }
 
