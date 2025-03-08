@@ -8,15 +8,13 @@ There are 2 dirs: `src` and `terraform`. `terraform` is used for managing the in
 
 ### Deployment role
 
-The pipeline needs a deployment role which is managed in `Infrastructure` repo, please refer to `cloudformation/iam/release-and-deployment-roles/apigw-lambda-dynamodb-template-deployment-role.yaml` and `.github/workflows/deploy-iam-apigw-lambda-dynamodb-template-deployment-role.yml` to create it first.
+The pipeline needs a deployment role which is managed in `Infrastructure-ebsoftwareservices` repo, please refer to `cloudformation/iam/release-and-deployment-roles/foo-deployment-role.yaml` and `.github/workflows/deploy-iam-foo-deployment-role.yml` to create it first.
 
 ### Test intergration
 
 For this example, use following command for test.
 ```
-curl -X POST https://v4n3jkew11.execute-api.ap-southeast-2.amazonaws.com/foo -H "content-type: application/json" -d "{ \"year\": \"2000\", \"foo\": \"John\" }"
-
-curl -X POST https://v4n3jkew11.execute-api.ap-southeast-2.amazonaws.com/bar -H "content-type: application/json" -d "{ \"year\": \"2020\", \"bar\": \"Andy\" }"
+curl -X POST https://API_GATEWAY_URL/foo -H "content-type: application/json" -d "{ \"year\": \"2000\", \"foo\": \"John\" }"
 ```
 If everything is fine, you can see these data are inserted in the right table.
 

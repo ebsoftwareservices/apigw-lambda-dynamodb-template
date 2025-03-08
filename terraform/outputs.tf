@@ -5,3 +5,9 @@ output "apigwy_url" {
 
   value = module.api_gateway.stage_invoke_url
 }
+
+output "lambda_layer_foo" {
+  description = "URL for Lambda Layer"
+
+  value = module.lambda_layer_foo
+}

@@ -1,8 +1,8 @@
 module "api_gateway" {
   source = "terraform-aws-modules/apigateway-v2/aws"
 
-  name               = "${var.apigw_name}-${random_string.random.id}"
-  description        = "My awesome HTTP API Gateway"
+  name               = var.apigw_name
+  description        = "foo api gateway"
   protocol_type      = "HTTP"
   create_domain_name = false
 
@@ -42,21 +42,34 @@ module "api_gateway" {
     })
   }
 
-  # Routes & Integration(s)
-  routes = {
-    "POST /foo" = {
-      integration = {
-        uri                    = module.lambda_foo.lambda_function_invoke_arn
-        type                   = "AWS_PROXY"
-        payload_format_version = "2.0"
-        timeout_milliseconds   = 12000
+  # Authorizer(s)
+  authorizers = {
+    "cognito" = {
+      authorizer_type  = "JWT"
+      identity_sources = ["$request.header.Authorization"]
+      name             = var.authorizers["name"]
+      jwt_configuration = {
+        audience = var.authorizers["audience"]
+        issuer   = var.authorizers["issuer"]
       }
     }
+  }
 
-    "GET /foo" = {
+  # Routes & Integration(s)
+  routes = {
+    "PUT /users/me/preferences/ebdx" = {
+      authorization_type = "JWT"
+      authorizer_key     = "cognito"
+
       integration = {
         type = "AWS_PROXY"
-        uri  = module.lambda_foo.lambda_function_invoke_arn
+        uri  = module.lambda_get_organization.lambda_function_invoke_arn
+      }
+    }
+    "GET /clients/{id}" = {
+      integration = {
+        type = "AWS_PROXY"
+        uri  = module.lambda_get_organization.lambda_function_invoke_arn
       }
     }
   }

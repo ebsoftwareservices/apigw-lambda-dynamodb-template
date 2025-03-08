@@ -5,14 +5,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.61"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.6"
-    }
-    archive = {
-      source  = "hashicorp/archive"
-      version = "~> 2.5"
-    }
   }
   backend "s3" {}
 }
@@ -21,9 +13,8 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-      Environment = "dev"
-      Name        = "api-lambda-dynamodb-template"
-      Terraform   = "true"
+      Name      = "foo"
+      Terraform = "true"
     }
   }
 }
