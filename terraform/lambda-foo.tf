@@ -77,6 +77,7 @@ module "lambda_layer_foo" {
         ":zip"
       ]
       patterns = [
+        "!.*",
         "node_modules/.*"
       ]
     }
