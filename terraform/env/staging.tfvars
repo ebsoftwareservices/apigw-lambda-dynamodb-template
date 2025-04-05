@@ -1,5 +1,5 @@
 authorizers = {
-  name = "dev-smartdocflow"
+  name = "staging-smartdocflow"
   audience = [
     "7cgpaonpskn2opef32iei25pbb"
   ]
