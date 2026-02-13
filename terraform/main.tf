@@ -1,9 +1,9 @@
 terraform {
-  required_version = "~> 1.9"
+  required_version = "~> 1.14.4"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.61"
+      version = "~> 6.32.0"
     }
   }
   backend "s3" {}
@@ -13,7 +13,7 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-      Name      = "foo"
+      Name      = "bedrock"
       Terraform = "true"
     }
   }

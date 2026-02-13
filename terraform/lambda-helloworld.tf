@@ -1,15 +1,14 @@
-module "lambda_foo" {
+module "lambda_bedrock_helloworld" {
   source                            = "terraform-aws-modules/lambda/aws"
-  function_name                     = "lambda-foo"
-  runtime                           = "nodejs20.x"
+  function_name                     = "bedrock-helloworld"
+  runtime                           = "nodejs24.x"
   handler                           = "index.handler"
   use_existing_cloudwatch_log_group = false
-  layers                            = [module.lambda_layer_foo.lambda_layer_arn]
+  layers                            = [module.lambda_layer_bedrock_helloworld.lambda_layer_arn]
   source_path = [
     {
-      path = "${path.module}/../src/foo"
+      path = "${path.module}/../src/helloworld"
       commands = [
-        "npm install",
         ":zip"
       ]
       patterns = [
@@ -17,10 +16,14 @@ module "lambda_foo" {
       ]
     }
   ]
-  trigger_on_package_timestamp = false
+
+  trigger_on_package_timestamp = true
+  recreate_missing_package     = true
+  ignore_source_code_hash      = true
+  artifacts_dir                = "${path.root}/builds"
 
   environment_variables = {
-    DDB_TABLE = "foo"
+    BEDROCK_VARIABLE = "Hello world!"
   }
 
   attach_policy_json = true
@@ -51,10 +54,10 @@ module "lambda_foo" {
   _EOF
 }
 
-resource "aws_lambda_permission" "apigw_foo" {
+resource "aws_lambda_permission" "bedrock-api-gateway" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda_foo.lambda_function_name
+  function_name = module.lambda_bedrock_helloworld.lambda_function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${module.api_gateway.api_execution_arn}/*/*"
   depends_on = [
@@ -63,17 +66,19 @@ resource "aws_lambda_permission" "apigw_foo" {
   ]
 }
 
-module "lambda_layer_foo" {
-  source          = "terraform-aws-modules/lambda/aws"
-  create_function = false
-  create_layer    = true
-  layer_name      = "lambda-foo-layer"
-  runtime         = "nodejs20.x"
+module "lambda_layer_bedrock_helloworld" {
+  source                  = "terraform-aws-modules/lambda/aws"
+  create_function         = false
+  create_layer            = true
+  layer_name              = "lambda-foo-layer"
+  runtime                 = "nodejs24.x"
+  ignore_source_code_hash = true
+  artifacts_dir           = "${path.root}/builds"
   source_path = [
     {
-      path = "${path.module}/../src/foo"
+      path = "${path.module}/../src/helloworld"
       commands = [
-        "npm install",
+        "npm install --production",
         ":zip"
       ]
       patterns = [
@@ -82,5 +87,4 @@ module "lambda_layer_foo" {
       ]
     }
   ]
-  hash_extra = "73D9A0E6-6486-4CD5-9165-2D99A67D2D76"
 }

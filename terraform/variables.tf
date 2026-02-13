@@ -9,7 +9,7 @@ variable "aws_region" {
 variable "apigw_name" {
   description = "name of the api gateway"
   type        = string
-  default     = "foo-api-gateway"
+  default     = "bedrock-api-gateway"
 
 }
 

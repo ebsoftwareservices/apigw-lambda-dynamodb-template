@@ -1,5 +1,4 @@
 name: Deploy to Prod
-
 on:
   workflow_dispatch:
 
@@ -7,21 +6,21 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Assume deployment role
         uses: youyo/awscredswrap@v1
         with:
-          role_arn: arn:aws:iam::019181405815:role/organization-settings-service-deployment-role
+          role_arn: arn:aws:iam::019181405815:role/helloworld-deployment-role
           duration_seconds: 3600
-          role_session_name: 'organization-settings-service@github-actions'
+          role_session_name: 'helloworld@github-actions'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "~1.11.0"
+          terraform_version: "1.11.1"
 
       - name: Terraform Plan
         run: |
