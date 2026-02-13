@@ -1,5 +1,5 @@
 {
-  "name": "foo",
+  "name": "bedrock-grettings",
   "version": "1.0.0",
   "main": "index.mjs",
   "scripts": {
@@ -10,8 +10,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.624.0",
-    "@aws-sdk/lib-dynamodb": "^3.624.0"
   },
   "devDependencies": {
     "standard": "^17.1.0"

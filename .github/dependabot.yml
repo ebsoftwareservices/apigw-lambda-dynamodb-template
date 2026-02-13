@@ -6,6 +6,10 @@
 version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/src/foo" # Location of package manifests
+    directory: "/src/bedrock-grettings" # Location of package manifests
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/src/bedrock-gifts" # Location of package manifests
     schedule:
       interval: "weekly"

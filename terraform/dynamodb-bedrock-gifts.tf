@@ -1,13 +1,13 @@
-module "dynamodb_table_foo" {
+module "dynamodb_table_bedrock_gifts" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name         = "foo"
+  name         = "bedrock-gifts"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "foo"
+  hash_key     = "id"
 
   attributes = [
     {
-      name = "foo"
+      name = "id"
       type = "S"
     }
   ]

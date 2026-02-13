@@ -57,19 +57,19 @@ module "api_gateway" {
 
   # Routes & Integration(s)
   routes = {
-    "PUT /users/me/preferences/ebdx" = {
+    "GET /greetings" = {
+      integration = {
+        type = "AWS_PROXY"
+        uri  = module.lambda_bedrock_grettings.lambda_function_invoke_arn
+      }
+    }
+    "GET /gifts" = {
       authorization_type = "JWT"
       authorizer_key     = "cognito"
 
       integration = {
         type = "AWS_PROXY"
-        uri  = module.lambda_foo.lambda_function_invoke_arn
-      }
-    }
-    "GET /clients/{id}" = {
-      integration = {
-        type = "AWS_PROXY"
-        uri  = module.lambda_foo.lambda_function_invoke_arn
+        uri  = module.lambda_bedrock_gifts.lambda_function_invoke_arn
       }
     }
   }
