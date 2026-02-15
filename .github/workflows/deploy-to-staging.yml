@@ -26,8 +26,8 @@ jobs:
       - name: Terraform Plan
         run: |
           cd terraform 
-          terraform init --backend-config=./backend/dev.hcl
-          terraform plan -var-file=./env/dev.tfvars -out tf.plan
+          terraform init --backend-config=./backend/staging.hcl
+          terraform plan -var-file=./env/staging.tfvars -out tf.plan
 
       - name: Terraform Apply
         run: |
