@@ -1,6 +1,6 @@
-name: Deploy to Staging
+name: Deploy to Prod
+
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -12,22 +12,22 @@ jobs:
       - name: Assume deployment role
         uses: youyo/awscredswrap@v1
         with:
-          role_arn: arn:aws:iam::804338050068:role/apigw-lambda-dynamodb-template-deployment-role
+          role_arn: arn:aws:iam::019181405815:role/organization-settings-service-deployment-role
           duration_seconds: 3600
-          role_session_name: 'bedrock-grettings@github-actions'
+          role_session_name: 'organization-settings-service@github-actions'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - uses: hashicorp/setup-terraform@v4
         with:
-          terraform_version: "~1.14.4"
+          terraform_version: "~1.11.0"
 
       - name: Terraform Plan
         run: |
           cd terraform 
-          terraform init --backend-config=./backend/staging.hcl
-          terraform plan -var-file=./env/staging.tfvars -out tf.plan
+          terraform init --backend-config=./backend/prod.hcl
+          terraform plan -var-file=./env/prod.tfvars -out tf.plan
 
       - name: Terraform Apply
         run: |
